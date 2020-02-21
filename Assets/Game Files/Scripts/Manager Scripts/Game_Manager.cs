@@ -9,19 +9,14 @@ namespace GW.Multi
         public Transform[] spawns;
         public GameObject teamSelectPanel;
         public GameObject nameInputPanel;
-        public GameObject menuPanel;
+        public GameObject menuCanvas;
 
         Event_Master eventMaster;
         Player myPlayer;
         Player_Name myPlayerName;
-        public string playerName;
+        public static string playerName;
         private bool isPlayerLoaded;
-
-        public void ExitGame()
-        {
-            Application.Quit();
-            Debug.Log("ExitCalled");
-        }
+        bool menuOpen;
 
         public void SetPlayerName()
         {
@@ -34,6 +29,7 @@ namespace GW.Multi
             GameObject go = NetworkManager.Instance.InstantiatePlayerConnection().gameObject;
             nameInputPanel.SetActive(false);
             go.GetComponent<Player_Connection>().playerName = playerName;
+            go.GetComponent<Player_Connection>().connectionState = 1;
         }
 
         public void SpawnPlayer(int team)
@@ -68,7 +64,8 @@ namespace GW.Multi
 
         void ToggleMenuPanel()
         {
-            menuPanel.SetActive(!menuPanel.activeSelf);
+            menuCanvas.SetActive(!menuCanvas.activeSelf);
+            menuOpen = !menuOpen;
         }
 
         void ToggleCursor()
@@ -76,12 +73,12 @@ namespace GW.Multi
             if (!isPlayerLoaded)
                 return;
 
-            if (myPlayer.myController.menuOpen)
+            if (menuOpen)
             {
                 Cursor.visible = true;
                 Cursor.lockState = CursorLockMode.None;
             }
-            else if (!myPlayer.myController.menuOpen)
+            else
             {
                 Cursor.visible = false;
                 Cursor.lockState = CursorLockMode.Locked;

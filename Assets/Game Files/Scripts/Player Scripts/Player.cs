@@ -50,11 +50,13 @@ namespace GW.Multi
         {
             eventMaster = FindObjectOfType<Event_Master>();
             eventMaster.ToggleMenuEvent += ToggleInputs;
+            eventMaster.PlayerDisconnected += DestroyPlayerOnNetwork;
         }
 
         private void OnDisable()
         {
             eventMaster.ToggleMenuEvent -= ToggleInputs;
+            eventMaster.PlayerDisconnected -= DestroyPlayerOnNetwork;
         }
         #endregion
 
@@ -85,7 +87,7 @@ namespace GW.Multi
             networkObject.SendRpc(RPC_SET_MATERIAL, Receivers.AllBuffered, team);
         }
 
-        void ToggleInputs()
+        public void ToggleInputs()
         {
             myController.menuOpen = !myController.menuOpen;
             if (myController.menuOpen)
@@ -98,6 +100,11 @@ namespace GW.Multi
                 myController.m_WalkSpeed = oldWalkSpeed;
                 myController.m_RunSpeed = oldRunSpeed;
             }
+        }
+
+        void DestroyPlayerOnNetwork()
+        {
+            networkObject.Destroy();
         }
 
         public override void setMaterial(RpcArgs args)

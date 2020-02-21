@@ -4,11 +4,12 @@ using UnityEngine;
 
 namespace BeardedManStudios.Forge.Networking.Generated
 {
-	[GeneratedRPC("{\"types\":[[\"string\"]]")]
-	[GeneratedRPCVariableNames("{\"types\":[[\"playerName\"]]")]
+	[GeneratedRPC("{\"types\":[[\"string\"][\"string\"]]")]
+	[GeneratedRPCVariableNames("{\"types\":[[\"playerName\"][\"playerName\"]]")]
 	public abstract partial class PlayerConnectionBehavior : NetworkBehavior
 	{
 		public const byte RPC_PLAYER_CONNECTED = 0 + 5;
+		public const byte RPC_PLAYER_DISCONNECTED = 1 + 5;
 		
 		public PlayerConnectionNetworkObject networkObject = null;
 
@@ -23,6 +24,7 @@ namespace BeardedManStudios.Forge.Networking.Generated
 
 			base.SetupHelperRpcs(networkObject);
 			networkObject.RegisterRpc("playerConnected", playerConnected, typeof(string));
+			networkObject.RegisterRpc("playerDisconnected", playerDisconnected, typeof(string));
 
 			networkObject.onDestroy += DestroyGameObject;
 
@@ -105,6 +107,11 @@ namespace BeardedManStudios.Forge.Networking.Generated
 		/// string playerName
 		/// </summary>
 		public abstract void playerConnected(RpcArgs args);
+		/// <summary>
+		/// Arguments:
+		/// string playerName
+		/// </summary>
+		public abstract void playerDisconnected(RpcArgs args);
 
 		// DO NOT TOUCH, THIS GETS GENERATED PLEASE EXTEND THIS CLASS IF YOU WISH TO HAVE CUSTOM CODE ADDITIONS
 	}

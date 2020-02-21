@@ -10,6 +10,7 @@ namespace GW.Multi
     {
         public Transform connectionStatusContent;
         public string playerName;
+        public int connectionState;
 
         private Text connectionText;
 
@@ -17,11 +18,6 @@ namespace GW.Multi
         {
             connectionStatusContent = GameObject.Find("Content_ConnectionInfo").transform;
             connectionText = GetComponentInChildren<Text>();
-        }
-
-        public void SetPlayerName(string name)
-        {
-            playerName = name;
         }
 
         protected override void NetworkStart()
@@ -34,7 +30,10 @@ namespace GW.Multi
             if (!networkObject.IsOwner)
                 return;
 
-            networkObject.SendRpc(RPC_PLAYER_CONNECTED, Receivers.All, playerName);
+            if(connectionState == 1)
+                networkObject.SendRpc(RPC_PLAYER_CONNECTED, Receivers.All, playerName);
+            if (connectionState == 2)
+                networkObject.SendRpc(RPC_PLAYER_DISCONNECTED, Receivers.All, playerName);
         }
 
         void SetTextConnected()
@@ -43,10 +42,23 @@ namespace GW.Multi
             gameObject.SetActive(true);
         }
 
+        void SetTextDisconnected()
+        {
+            connectionText.text = " " + playerName + " disconnected!";
+            gameObject.SetActive(true);
+        }
+
         public override void playerConnected(RpcArgs args)
         {
             playerName = args.GetNext<string>();
             SetTextConnected();
+            StartCoroutine(DestroyTextPanel());
+        }
+
+        public override void playerDisconnected(RpcArgs args)
+        {
+            playerName = args.GetNext<string>();
+            SetTextDisconnected();
             StartCoroutine(DestroyTextPanel());
         }
 

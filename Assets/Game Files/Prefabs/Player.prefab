@@ -177,7 +177,7 @@ MonoBehaviour:
     MaximumX: 90
     smooth: 0
     smoothTime: 5
-    lockCursor: 1
+    lockCursor: 0
   m_UseFovKick: 1
   m_FovKick:
     Camera: {fileID: 0}
@@ -446,7 +446,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e2dbb1b11419674580920a9302b8ebc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerName: 
   team: 0
   teamMats:
   - {fileID: 2100000, guid: d162eeede8add7140848107c4cafd52f, type: 2}
