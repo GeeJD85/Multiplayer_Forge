@@ -4,8 +4,8 @@ using UnityEngine;
 
 namespace BeardedManStudios.Forge.Networking.Generated
 {
-	[GeneratedRPC("{\"types\":[[\"string\"]]")]
-	[GeneratedRPCVariableNames("{\"types\":[[\"playername\"]]")]
+	[GeneratedRPC("{\"types\":[[\"string\", \"int\"]]")]
+	[GeneratedRPCVariableNames("{\"types\":[[\"playername\", \"team\"]]")]
 	public abstract partial class PlayerNamePlateBehavior : NetworkBehavior
 	{
 		public const byte RPC_SET_NAME_PLATE = 0 + 5;
@@ -22,7 +22,7 @@ namespace BeardedManStudios.Forge.Networking.Generated
 			networkObject.AttachedBehavior = this;
 
 			base.SetupHelperRpcs(networkObject);
-			networkObject.RegisterRpc("setNamePlate", setNamePlate, typeof(string));
+			networkObject.RegisterRpc("setNamePlate", setNamePlate, typeof(string), typeof(int));
 
 			networkObject.onDestroy += DestroyGameObject;
 
@@ -103,6 +103,7 @@ namespace BeardedManStudios.Forge.Networking.Generated
 		/// <summary>
 		/// Arguments:
 		/// string playername
+		/// int team
 		/// </summary>
 		public abstract void setNamePlate(RpcArgs args);
 

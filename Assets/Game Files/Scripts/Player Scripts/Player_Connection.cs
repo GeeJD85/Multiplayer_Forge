@@ -65,7 +65,7 @@ namespace GW.Multi
         IEnumerator DestroyTextPanel()
         {
             yield return new WaitForSeconds(2);
-            Destroy(gameObject);
+            networkObject.Destroy();
         }
     }
 }

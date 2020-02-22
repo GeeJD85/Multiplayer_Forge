@@ -9,6 +9,12 @@ EditorBuildSettings:
     path: Assets/Game Files/Scenes/Multiplayer_Menu.unity
     guid: 10635318b55cb814a8b58c23f54a9e98
   - enabled: 1
+    path: Assets/Game Files/Scenes/Server_Browser.unity
+    guid: 9fbbbaa21ce89e143a725d15ccaea81b
+  - enabled: 1
+    path: Assets/Game Files/Scenes/Player_Lobby.unity
+    guid: 396e30b40c3535144a684a003372fb3c
+  - enabled: 1
     path: Assets/Game Files/Scenes/Game.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
   m_configObjects: {}

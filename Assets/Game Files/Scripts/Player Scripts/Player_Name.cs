@@ -8,9 +8,11 @@ namespace GW.Multi
     public class Player_Name : PlayerNamePlateBehavior
     {
         public string playerName;
+        public int myTeam;
         public Camera myCamera;
 
         Text myText;
+        Player myPlayer;
 
         protected override void NetworkStart()
         {
@@ -19,12 +21,13 @@ namespace GW.Multi
             if (!networkObject.IsOwner)
                 return;
 
-            networkObject.SendRpc(RPC_SET_NAME_PLATE, Receivers.AllBuffered, playerName);                     
+            networkObject.SendRpc(RPC_SET_NAME_PLATE, Receivers.AllBuffered, playerName, myTeam);                     
         }
 
         void Start()
         {
             myText = GetComponentInChildren<Text>();
+            myPlayer = GetComponent<Player>();
         }
 
         private void Update()
@@ -49,12 +52,22 @@ namespace GW.Multi
 
         void SetNamePanelText()
         {            
-            myText.text = playerName;
+            myText.text = playerName;           
+
+            if (networkObject.IsOwner)
+                myText.enabled = false;
         }
 
         public override void setNamePlate(RpcArgs args)
         {
             playerName = args.GetNext<string>();
+            int team = args.GetNext<int>();
+
+            if (team == myTeam)
+                myText.color = Color.green;
+            if (team != myTeam)
+                myText.color = Color.red;
+
             SetNamePanelText();
         }
     }
