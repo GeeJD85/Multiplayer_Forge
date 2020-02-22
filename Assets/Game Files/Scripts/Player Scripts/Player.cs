@@ -1,5 +1,6 @@
 ﻿using BeardedManStudios.Forge.Networking;
 using BeardedManStudios.Forge.Networking.Generated;
+using BeardedManStudios.Forge.Networking.Unity;
 using UnityEngine;
 using UnityStandardAssets.Characters.FirstPerson;
 
@@ -41,22 +42,52 @@ namespace GW.Multi
                 return;
             }
 
+            if (NetworkManager.Instance.Networker is IServer)
+            {
+                //here you can also do some server specific code
+            }
+            else
+            {
+                //setup the disconnected event
+                NetworkManager.Instance.Networker.disconnected += DisconnectedFromServer;
+
+            }
+
             SetInitialState();
             SetTeam(team);
         }
 
-        #region Enable/Disable
-        private void OnEnable()
+        private void DisconnectedFromServer(NetWorker sender)
+        {
+            NetworkManager.Instance.Networker.disconnected -= DisconnectedFromServer;
+
+            MainThreadManager.Run(() =>
+            {
+                //Loop through the network objects to see if the disconnected player is the host
+                foreach (var no in sender.NetworkObjectList)
+                {
+                    if (no.Owner.IsHost)
+                    {
+                        BMSLogger.Instance.Log("Server disconnected");
+                        //Should probably make some kind of "You disconnected" screen. ah well
+                        UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+                    }
+                }
+                
+                NetworkManager.Instance.Disconnect();
+            });
+        }
+
+            #region Enable/Disable
+            private void OnEnable()
         {
             eventMaster = FindObjectOfType<Event_Master>();
             eventMaster.ToggleMenuEvent += ToggleInputs;
-            eventMaster.PlayerDisconnected += DestroyPlayerOnNetwork;
         }
 
         private void OnDisable()
         {
             eventMaster.ToggleMenuEvent -= ToggleInputs;
-            eventMaster.PlayerDisconnected -= DestroyPlayerOnNetwork;
         }
         #endregion
 
@@ -100,11 +131,6 @@ namespace GW.Multi
                 myController.m_WalkSpeed = oldWalkSpeed;
                 myController.m_RunSpeed = oldRunSpeed;
             }
-        }
-
-        void DestroyPlayerOnNetwork()
-        {
-            networkObject.Destroy();
         }
 
         public override void setMaterial(RpcArgs args)

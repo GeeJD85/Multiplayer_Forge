@@ -6,20 +6,11 @@ namespace GW.Multi
     {
         public delegate void GeneralEvent();
         public event GeneralEvent ToggleMenuEvent;
-        public event GeneralEvent PlayerDisconnected;
 
         public void CallEventToggleMenu()
         {
             if (ToggleMenuEvent != null)
                 ToggleMenuEvent();
         }        
-
-        public void CallEventPlayerDisconnected()
-        {
-            if(PlayerDisconnected != null)
-            {
-                PlayerDisconnected();
-            }
-        }
     }
 }
