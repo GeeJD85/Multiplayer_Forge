@@ -1107,10 +1107,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bc192884271b854fbf8076f03918d7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  iPAddress: 
+  iPAddress: 192.168.56.1
   portNumber: 
   DontChangeSceneOnConnect: 0
-  masterServerHost: 127.0.0.1
+  masterServerHost: 192.168.56.1
   masterServerPort: 15940
   natServerHost: 
   natServerPort: 15941

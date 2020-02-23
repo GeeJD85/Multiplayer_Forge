@@ -22,6 +22,7 @@ namespace GW.Multi
 
         protected override void NetworkStart()
         {
+            Debug.Log("Player_Connection");
             base.NetworkStart();
 
             gameObject.SetActive(false);
@@ -30,7 +31,7 @@ namespace GW.Multi
             if (!networkObject.IsOwner)
                 return;
 
-            if(connectionState == 1)
+            if (connectionState == 1)
                 networkObject.SendRpc(RPC_PLAYER_CONNECTED, Receivers.All, playerName);
             if (connectionState == 2)
                 networkObject.SendRpc(RPC_PLAYER_DISCONNECTED, Receivers.All, playerName);

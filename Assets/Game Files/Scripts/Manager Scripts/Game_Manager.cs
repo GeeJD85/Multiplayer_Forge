@@ -17,18 +17,20 @@ namespace GW.Multi
         Event_Master eventMaster;
         Player myPlayer;
         Player_Name myPlayerName;
-        public static string playerName;
+        public string playerName;
         private bool isPlayerLoaded;
         bool menuOpen;
 
         protected override void NetworkStart()
         {
-            base.NetworkStart();            
+            base.NetworkStart();
+
+            SetupDisconnect();      
         }
 
-        void Start()
+        void SetupDisconnect()
         {
-            //safety check lol
+            //safety check 
             if (!networkObject.IsServer)
             {
                 return;

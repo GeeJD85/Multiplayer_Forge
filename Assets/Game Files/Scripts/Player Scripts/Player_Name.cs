@@ -12,10 +12,10 @@ namespace GW.Multi
         public Camera myCamera;
 
         Text myText;
-        Player myPlayer;
 
         protected override void NetworkStart()
         {
+            Debug.Log("PN START");
             base.NetworkStart();
 
             if (!networkObject.IsOwner)
@@ -27,7 +27,6 @@ namespace GW.Multi
         void Start()
         {
             myText = GetComponentInChildren<Text>();
-            myPlayer = GetComponent<Player>();
         }
 
         private void Update()
