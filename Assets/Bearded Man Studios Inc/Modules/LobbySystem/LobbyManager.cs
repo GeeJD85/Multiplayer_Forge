@@ -136,11 +136,8 @@ namespace BeardedManStudios.Forge.Networking.Unity.Lobby
 
         public void StartGame(int sceneID)
         {
-#if UNITY_5_6_OR_NEWER
-            SceneManager.LoadScene(sceneID);
-#else
-            Application.LoadLevel(sceneID);
-#endif
+			if(NetworkManager.Instance.IsServer)
+				SceneManager.LoadScene(sceneID);
         }
         #endregion
 

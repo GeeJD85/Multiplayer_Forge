@@ -98,10 +98,8 @@ namespace GW.Multi
 				client = new UDPClient();
 				if (natServerHost.Trim().Length == 0)
 				{
-					Debug.Log((ushort)port);
 					((UDPClient)client).Connect(iPAddress, (ushort)port);
-				}
-					
+				}					
 				else
 					((UDPClient)client).Connect(iPAddress, (ushort)port, natServerHost, natServerPort);
 			}
@@ -230,7 +228,12 @@ namespace GW.Multi
 			}
 
 			if (networker is IClient)
-				SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+			{
+				if (!DontChangeSceneOnConnect)
+					SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+				else
+					NetworkObject.Flush(networker); //Called because we are already in the correct scene!
+			}				
 		}
 
 		private void CreateInlineChat(Scene arg0, LoadSceneMode arg1)
